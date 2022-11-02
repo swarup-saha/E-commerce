@@ -1,5 +1,5 @@
 import styled from "styled-components"
-// import { CurrencyRupeeOutlined } from '@material-ui/icons'
+
 const Container = styled.div`
   height: 30px;
   background-color: teal;
