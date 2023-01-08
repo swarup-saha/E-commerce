@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import { publicRequest } from "../requestMethod";
 
 const Container = styled.div`
   width: 100vw;
@@ -44,23 +46,83 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
 `;
+const Error = styled.div`
+  color: red;
+`;
 const Register = () => {
+  const [userDetails, setUserDetails] = useState({
+    firstName: "",
+    lastName: "",
+    userName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const handleDetails = (e) => {
+    setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
+  };
+  const [error, setError] = useState("");
+  const handleClick = async (e) => {
+    e.preventDefault();
+    if (userDetails.password === userDetails.confirmPassword) {
+      await publicRequest.post("/auth/register", userDetails);
+    } else {
+      setError("password is incorrect!");
+    }
+  };
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input placeholder="first name" />
-          <Input placeholder="last name" />
-          <Input placeholder="username" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Input placeholder="confirm password" />
+          <Input
+            placeholder="first name"
+            type="text"
+            name="firstName"
+            value={userDetails.firstName}
+            onChange={handleDetails}
+          />
+          <Input
+            placeholder="last name"
+            type="text"
+            name="lastName"
+            value={userDetails.lastName}
+            onChange={handleDetails}
+          />
+          <Input
+            placeholder="username"
+            type="text"
+            name="userName"
+            value={userDetails.userName}
+            onChange={handleDetails}
+          />
+          <Input
+            placeholder="email"
+            type="email"
+            name="email"
+            value={userDetails.email}
+            onChange={handleDetails}
+          />
+          <Input
+            placeholder="password"
+            type="password"
+            name="password"
+            value={userDetails.password}
+            onChange={handleDetails}
+          />
+          <Input
+            placeholder="confirm password"
+            type="password"
+            name="confirmPassword"
+            value={userDetails.confirmPassword}
+            onChange={handleDetails}
+          />
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button>CREATE</Button>
+          <Button onClick={handleClick}>CREATE</Button>
+          <Error>{error}</Error>
         </Form>
       </Wrapper>
     </Container>

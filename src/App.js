@@ -11,11 +11,10 @@ import {
   Routes,
 } from "react-router-dom";
 import Success from "./components/payment/Success";
+import { useSelector } from "react-redux";
 
-// import Payment from "./components/payment/Payment";
 function App() {
-  const user = true;
-  // const UserProvides = useContext(UserContext)
+  const user = useSelector((state) => state.user.currentUser);
   return (
     <Router>
       <Routes>

@@ -166,7 +166,7 @@ const Cart = () => {
 
   const handleOrder = async (e) => {
     try {
-      const API_URL = `http://localhost:5000/api/`;
+      const API_URL = `https://ecommerse-back-swarup-saha.onrender.com/api/`;
       const response = await axios.post(`${API_URL}orders/create`, {
         amount: cart.total,
       });
