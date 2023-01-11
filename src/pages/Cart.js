@@ -137,8 +137,8 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const KEY_ID = "rzp_test_E3pl33DNO3tqap";
+  const user = useSelector((state) => state.user.currentUser);
   const paymentProcess = (data, API_URL) => {
-    console.log("hiiiiii", data, process.env.KEY_ID);
     const options = {
       key: KEY_ID,
       name: "Your App Name",
@@ -166,12 +166,16 @@ const Cart = () => {
 
   const handleOrder = async (e) => {
     try {
-      const API_URL = `https://ecommerse-back-swarup-saha.onrender.com/api/`;
-      const response = await axios.post(`${API_URL}orders/create`, {
-        amount: cart.total,
-      });
-      const { data } = response;
-      paymentProcess(data, API_URL);
+      if (!user) {
+        alert("please login!");
+      } else {
+        const API_URL = `https://ecommerse-back-swarup-saha.onrender.com/api/`;
+        const response = await axios.post(`${API_URL}orders/create`, {
+          amount: cart.total,
+        });
+        const { data } = response;
+        paymentProcess(data, API_URL);
+      }
     } catch (error) {
       console.log(error);
     }
